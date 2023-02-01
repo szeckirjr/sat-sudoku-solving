@@ -2,6 +2,13 @@
 
 ## Project 1 - CSC322 Spring 2023
 
+### Authors
+
+Eduardo Szeckir
+Rebecca Marshall
+Emma Dewit
+Sylvain Taghaoussi
+
 ## To Execute
 
 The files under root are the compiled files. To run the program, execute the following command:
