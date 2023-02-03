@@ -21,22 +21,26 @@ The files under root are the compiled files. To run the program, execute the fol
 
 To make the program executable on Unix systems, needed for the lab:
 
-1. Add the following line to the top of the `.py`file:
+1. Make sure the following line is at the top of the `.py`file:
 
 ```python
 #!/usr/bin/env python3
 ```
 
-2. Delete the `.py` extension from the file name
+2. Copy the file into the root directory of the project:
+
+```bash
+cp hello.py ./../hello
+```
 
 3. Run the following command to make file executable:
 
 ```bash
-chmod +x hello.py
+chmod +x hello
 ```
 
 4. Run the program with the following command:
 
 ```bash
-./hello.py
+./hello
 ```
