@@ -19,29 +19,24 @@ The files under root are the compiled files. To run the program, execute the fol
 
 ## To Compile
 
-To compile the program, use the development files under `/source`.
+To make the program executable on Unix systems, needed for the lab:
 
-A virtual environment is recommended. To create one, execute the following commands:
+1. Add the following line to the top of the `.py`file:
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
+```python
+#!/usr/bin/env python3
 ```
 
-Install the dependencies
+2. Delete the `.py` extension from the file name
+
+3. Run the following command to make file executable:
 
 ```bash
-pip install -r requirements.txt
+chmod +x hello.py
 ```
 
-Compile the program
+4. Run the program with the following command:
 
 ```bash
-pyinstaller --onefile hello.py
-```
-
-To generate new requirements, execute the following commands:
-
-```bash
-pip freeze > requirements.txt
+./hello.py
 ```
