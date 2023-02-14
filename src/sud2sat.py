@@ -8,51 +8,27 @@ def encode(i, j, k):
 def get_clauses():
     return
 
-# This function opens the file and returns the data
-# returns sudoku puzzles in following format
-# all puzzles are stored in a list, puzzles = []
-# individual puzzles are stored in one list with len 81
-# the list is of len 81 for each square of a 9x9 sudoku puzzle
+'''
+This function opens the file and returns the unsolved sudoku puzzle
+into an array. The wildcard values will be always changed to 0. 
+'''
 def getfilecontents(path):
     try:
-        f = open(path, "r")
-        content = f.read()
-        puzzles = []
-        puzzle = []
-        index = 0
-        for char in content:
-            # if puzzle isn't complete and reached end of file
-            if index == len(content) - 1 and len(puzzle) < 81:
-                for i in range(0, 81-len(puzzle)):
-                    puzzle.append(0)
-                puzzles.append(puzzle)
-                puzzle = []
-                break
-
-            # check if puzzle is full, if it is push to puzzles list and empty it
-            if len(puzzle) >= 81:
-                puzzles.append(puzzle)
-                puzzle = []
-            # if entry is num append integer version of char num            
-            if char in ["1", "2", "3", "4", "5", "6", "7", "8" , "9"]:
-                puzzle.append(int(char))
-            # if wildcard character push 0
-            elif char in [".", "?", "0", "*"]:
-                puzzle.append(0)
-            index += 1
-        return puzzles
+        with open(path, 'r') as file:
+            puzzle = file.read().strip().replace("\n", "")
+            puzzle = [0 if char in [".", "?", "0", "*"] else int(char) for char in puzzle]
+        return puzzle
 
     except Exception as err:
         print(f"Failed to parse from {path}")
         print(err)
         sys.exit(2)
-    return
     
 
 def main(path):
     
-    puzzles = getfilecontents(path)
-    print("Puzzles from input:\n", puzzles, "\n")
+    puzzle = getfilecontents(path)
+    print("Puzzle from input:\n", puzzle, "\n")
     clauses = get_clauses()
     clauses = [[1,3,4,5], [14,6,3], [944, 5]] # testing
     
