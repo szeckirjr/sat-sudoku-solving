@@ -4,6 +4,14 @@
 
 ### Authors
 
+
+| Name               | V#               |
+| ----------------   | ---------------- |
+| Eduardo Szeckir    |                  |
+| Rebecca Marshall   |                  |
+| Emma Dewit         | V00906515        |
+| Sylvain Taghaoussi |                  |
+
 Eduardo Szeckir
 Rebecca Marshall
 Emma Dewit V00906515
