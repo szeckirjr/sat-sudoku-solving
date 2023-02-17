@@ -6,7 +6,7 @@
 
 Eduardo Szeckir
 Rebecca Marshall
-Emma Dewit V00906515 
+Emma Dewit V00906515
 Sylvain Taghaoussi
 
 ## To Execute
@@ -14,7 +14,9 @@ Sylvain Taghaoussi
 The files under root are the compiled files. To run the program, execute the following command:
 
 ```bash
-./hello
+./sud2sat <puzzle.txt >puzzle.cnf
+minisat puzzle.cnf assign.txt >stat.txt
+./sat2sud <assign.txt >solution.txt
 ```
 
 ## To Compile
