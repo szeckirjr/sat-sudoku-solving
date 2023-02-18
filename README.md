@@ -7,15 +7,10 @@
 
 | Name               | V#               |
 | ----------------   | ---------------- |
-| Eduardo Szeckir    |                  |
+| Eduardo Szeckir    | V009221126       |
 | Rebecca Marshall   |                  |
 | Emma Dewit         | V00906515        |
 | Sylvain Taghaoussi |                  |
-
-Eduardo Szeckir
-Rebecca Marshall
-Emma Dewit V00906515
-Sylvain Taghaoussi
 
 ## To Execute
 
