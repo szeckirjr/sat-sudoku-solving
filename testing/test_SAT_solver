@@ -46,8 +46,8 @@ def create_output_folder(new_dir):
 
 
 # Run all puzzles with minisat
-def process_puzzles(folder_path):
-    create_output_folder("test_output/")
+def process_puzzles(folder_path, stat_output_folder='stat_files/'):
+    create_output_folder(stat_output_folder)
     file_index = 1
 
     for file_name in os.listdir(folder_path):
@@ -55,7 +55,7 @@ def process_puzzles(folder_path):
             file_path = os.path.join(folder_path, file_name)
             copy_file(file_path) # copy puzzle file to current directory
             run_sud2sat(file_name, file_index)
-            run_minisat(file_index, "test_output/")
+            run_minisat(file_index, stat_output_folder)
             delete_file(file_name) # remove puzzle file from current directory
             file_index += 1
 
@@ -66,7 +66,7 @@ def get_average_stat(total_num_files, total_num_var):
 
     return sum/total_num_files
 
-def parse_statistics(input_folder='test_output/', output_file='parsed_stats.csv'):
+def parse_statistics(input_folder='stat_files/', output_file='ac_and_wc_stats.csv'):
     num_files = len(os.listdir(input_folder))
 
     # initialize variables to hold the statistics
