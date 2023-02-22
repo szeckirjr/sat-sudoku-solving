@@ -8,7 +8,7 @@
 | Name               | V#               |
 | ----------------   | ---------------- |
 | Eduardo Szeckir    | V009221126       |
-| Rebecca Marshall   |                  |
+| Rebecca Marshall   | V00911412        |
 | Emma Dewit         | V00906515        |
 | Sylvain Taghaoussi |                  |
 
