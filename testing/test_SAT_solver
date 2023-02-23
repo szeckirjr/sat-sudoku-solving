@@ -60,7 +60,7 @@ def process_puzzles(folder_path, stat_output_folder='stat_files/'):
             file_index += 1
 
 def get_average_stat(total_num_files, total_num_var):
-    sum = 0
+    sum = 0.0
     for val in total_num_var:
         sum += val
 
@@ -97,21 +97,21 @@ def parse_statistics(input_folder='stat_files/', output_file='ac_and_wc_stats.cs
                 elif line.startswith('|  Number of clauses:'):
                     total_num_clauses.append(int(line.replace('|','').split(':')[1].strip()))
                 elif line.startswith('|  Parse time:'):
-                    total_parse_time.append(float(line.replace('|','').split(':')[1].strip()[0]))
+                    total_parse_time.append(float(line.replace('|','').split(':')[1].replace('s','').strip()))
                 elif line.startswith('|  Simplification time:'):
-                    total_simp_time.append(float(line.replace('|','').split(':')[1].strip()[0]))
+                    total_simp_time.append(float(line.replace('|','').split(':')[1].replace('s','').strip()))
                 elif line.startswith('restarts'):
                     total_num_restarts.append(float(line.replace('|','').split(':')[1].strip()))
                 elif line.startswith('conflicts'):
-                    total_num_conflicts.append(float(line.replace('|','').split(':')[1].strip()[0]))
+                    total_num_conflicts.append(float(line.replace('|','').split(':')[1].split('(')[0].strip()))
                 elif line.startswith('decisions'):
-                    total_num_decisions.append(float(line.replace('|','').split(':')[1].strip()[0]))
+                    total_num_decisions.append(float(line.replace('|','').split(':')[1].split('(')[0].strip()))
                 elif line.startswith('propagations'):
-                    total_num_propagations.append(float(line.replace('|','').split(':')[1].strip()[0]))
+                    total_num_propagations.append(float(line.replace('|','').split(':')[1].split('(')[0].strip()))
                 elif line.startswith('Memory used'):
-                    total_memory_used.append(float(line.replace('|','').split(':')[1].strip()[0]))
+                    total_memory_used.append(float(line.replace('|','').split(':')[1].replace('MB', '').strip()))
                 elif line.startswith('CPU time'):
-                    total_cpu_time.append(float(line.replace('|','').split(':')[1].strip()[0]))
+                    total_cpu_time.append(float(line.replace('|','').split(':')[1].replace('s','').strip()))
                 elif line.startswith('SATISFIABLE'):
                     satisfiable_cnt += 1
 
