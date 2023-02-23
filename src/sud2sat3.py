@@ -77,7 +77,7 @@ def get_clauses(puzzle):
     for k in range(1, 10):
         for a in range(0, 3):
             for b in range(0, 3):
-                clauses.append([encode(3 * a + u, 3 * b + v,k) for u in range(1, 3) for v in range(1,3)])
+                clauses.append([encode(3 * a + u, 3 * b + v,k) for u in range(1, 4) for v in range(1,4)])
     
 
     return clauses
