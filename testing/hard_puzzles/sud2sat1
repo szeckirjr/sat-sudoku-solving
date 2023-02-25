@@ -2,7 +2,7 @@
 
 import sys
 import re
-
+import os
 
 def encode(i, j, k):
     return 81*(i - 1) + 9*(j - 1) + (k - 1) + 1
@@ -54,56 +54,39 @@ def get_clauses(puzzle):
                             for t in range(1, 4):
                                 clauses.append([-encode(3*a+u, 3*b+v, k), -encode(3*a+w, 3*b+t, k)])
 
-    # there is at most one number in each cell
-    for i in range(1, 10):
-        for j in range(1, 10):
-            for k in range(1,9):
-                for l in range(k+1, 10):
-                    clauses.append([-encode(i, j, k), -encode(i, j, l)])
-    
-
-    # Every number appears at least once in each row
-    for i in range(1, 10):
-        for k in range(1, 10):       
-            clauses.append([encode(i, j , k) for j in range(1, 10)])
-
-    # Every number appears at least once in each column
-    for j in range(1, 10):
-        for k in range(1, 10):
-            clauses.append([encode(i, j, k) for i in range(1, 10)]) 
-    
-    # Every number appears at least once in each subgrid
-    for k in range(1, 10):
-        for a in range(0, 3):
-            for b in range(0, 3):
-                clauses.append([encode(3 * a + u, 3 * b + v,k) for u in range(1, 4) for v in range(1,4)])
-    
-
     return clauses
 
 '''
 This function reads from STDIN and returns the unsolved sudoku puzzle
-in an array. The wildcard values will be always changed to 0. 
+in an array 
 '''
-def get_puzzle():
+def get_puzzles():
     input_str = sys.stdin.read()
-    puzzle = re.sub("[\n\r]", "", input_str)
+    puzzles = input_str.split('\n')
+    return puzzles
+
+def create_output_folder(new_dir):
+    if not os.path.exists(new_dir):
+        os.makedirs(new_dir)
+
+def solve_puzzle(puzzle, index):
     puzzle = [0 if char in [".", "?", "0", "*"] else int(char) for char in puzzle]
-    return puzzle
-
-
-def main():
-    
-    puzzle = get_puzzle()
     clauses = get_clauses(puzzle)
 
-    # write to STDOUT
-    print("p cnf {} {}".format(729 , len(clauses)))
-    for clause in clauses:
-        clause.append(0)
-        print(*clause)
+    create_output_folder('hard_puzzle_output/')
+
+    with open("hard_puzzle_output/puzzle_{}.cnf".format(index), "w") as file:
+        file.write("p cnf {} {}\n".format(729 , len(clauses)))
+        for clause in clauses:
+            clause.append(0)
+            file.write("{}\n".format(" ".join(str(x) for x in clause)))
 
 
 if __name__ == "__main__":
-    main()
+    puzzles = get_puzzles()
+    index = 1
+
+    for puzzle in puzzles:
+        solve_puzzle(puzzle, index)
+        index += 1
     

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-# STDIN must be in the same directory!!
 import sys
 import re
 
