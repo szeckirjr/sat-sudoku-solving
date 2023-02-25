@@ -20,6 +20,9 @@ def delete_file(file_path):
     except OSError as e:
         print(f"Error: {file_path} : {e.strerror}")
 
+def delete_folder(folder_path):
+    shutil.rmtree(folder_path)
+
 
 def run_sud2sat(sud2sat_path, puzzle, i):
     output_file = "puzzle_{}.cnf".format(i)
@@ -47,7 +50,8 @@ def create_output_folder(new_dir):
         os.makedirs(new_dir)
 
 
-# Run all puzzles with minisat
+# Run all puzzles with sud2sat and minisat
+# NOTE: won't work with sud2sat1
 def process_puzzles(folder_path, output_folder, stat_output_folder, sud2sat_path):    
     create_output_folder(stat_output_folder)
     copy_file(sud2sat_path)
@@ -63,7 +67,30 @@ def process_puzzles(folder_path, output_folder, stat_output_folder, sud2sat_path
             delete_file(file_name) # remove puzzle file from current directory
             file_index += 1
 
-    delete_file(os.path.basename(sud2sat_path))
+    delete_file(os.path.basename(sud2sat_path)) 
+
+# sud2sat1 has a different input format
+def process_puzzles_2(folder_path, output_folder, stat_output_folder, sud2sat1_path):
+    create_output_folder(stat_output_folder)
+    copy_file(sud2sat1_path)
+    copy_file(sud2sat1_path, output_folder)
+    sud2sat1 = os.path.basename(sud2sat1_path)
+
+    # run sud2sat1
+    os.system(f"./{sud2sat1} < {folder_path}")
+    
+    file_index = 1
+
+    for file_name in os.listdir('hard_puzzle_output/'):
+        if file_name.endswith('.cnf'):
+            file_path = os.path.join('hard_puzzle_output/', file_name)
+            copy_file(file_path)
+            run_minisat(file_index, stat_output_folder)
+            delete_file(file_path)
+            file_index += 1
+
+    delete_file(os.path.basename(sud2sat1_path)) 
+    delete_folder('hard_puzzle_output')
 
 def get_average_stat(total_num_files, total_num_var):
     sum = 0.0
@@ -166,7 +193,7 @@ def parse_statistics(stat_folder, output_file):
     
 def parse_args(args):
     parser = argparse.ArgumentParser()
-    parser.add_argument("input", help="Input folder with puzzle files")
+    parser.add_argument("input", help="Input folder with puzzle files (or input file for sud2sat1)")
     parser.add_argument("-s", "--sud2sat", help="Path to sud2sat executable")
     parser.add_argument("-o", "--output", help="output folder for stats and report file", default="test_output/")
     p_args = parser.parse_args(args)
@@ -176,6 +203,11 @@ if __name__ == '__main__':
     args = parse_args(sys.argv[1:])
     stat_output_folder = args.output + 'stat_files/'
     output_file = args.output + 'ac_and_wc_stats.csv'
-    process_puzzles(args.input, args.output, stat_output_folder, args.sud2sat)
+
+    if os.path.basename(args.sud2sat) == "sud2sat1":
+        process_puzzles_2(args.input, args.output, stat_output_folder, args.sud2sat)
+    else:
+        process_puzzles(args.input, args.output, stat_output_folder, args.sud2sat)
+
     parse_statistics(stat_output_folder, output_file)
     
