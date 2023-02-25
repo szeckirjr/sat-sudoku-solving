@@ -1,0 +1,14 @@
+,Average Case Statistics,Worst Case Statistics
+Number of variables,729.0,729
+Number of clauses,3751.02,4563
+Parse time (s),0.0,0.0
+Simplification time (s),0.0,0.0
+Number of conflicts,8.52,117.0
+Number of restarts,1.02,2.0
+Number of decisions,16.76,155.0
+Number of propagations,961.32,5316.0
+Memory used (MB),11.0,11.0
+CPU time (s),0.00301564,0.005832
+,,
+Number of satisfiable puzzles,50
+Number of unsatisfiable puzzles,0

@@ -4,6 +4,7 @@ import os
 import shutil
 import sys
 import csv
+import argparse
 
 # copy file to this folder
 def copy_file(src_path, dst_path="."):
@@ -20,11 +21,12 @@ def delete_file(file_path):
         print(f"Error: {file_path} : {e.strerror}")
 
 
-def run_sud2sat(puzzle, i):
+def run_sud2sat(sud2sat_path, puzzle, i):
     output_file = "puzzle_{}.cnf".format(i)
+    sud2sat = os.path.basename(sud2sat_path)
 
     # Run sud2sat
-    os.system(f"./sud2sat < {puzzle} > {output_file}")
+    os.system(f"./{sud2sat} < {puzzle} > {output_file}")
 
 
 def run_minisat(i, output_folder_path): 
@@ -46,18 +48,22 @@ def create_output_folder(new_dir):
 
 
 # Run all puzzles with minisat
-def process_puzzles(folder_path, stat_output_folder='stat_files/'):
+def process_puzzles(folder_path, output_folder, stat_output_folder, sud2sat_path):    
     create_output_folder(stat_output_folder)
+    copy_file(sud2sat_path)
+    copy_file(sud2sat_path, output_folder)
     file_index = 1
 
     for file_name in os.listdir(folder_path):
         if file_name.endswith('.txt'):
             file_path = os.path.join(folder_path, file_name)
             copy_file(file_path) # copy puzzle file to current directory
-            run_sud2sat(file_name, file_index)
+            run_sud2sat(sud2sat_path, file_name, file_index)
             run_minisat(file_index, stat_output_folder)
             delete_file(file_name) # remove puzzle file from current directory
             file_index += 1
+
+    delete_file(os.path.basename(sud2sat_path))
 
 def get_average_stat(total_num_files, total_num_var):
     sum = 0.0
@@ -66,8 +72,8 @@ def get_average_stat(total_num_files, total_num_var):
 
     return sum/total_num_files
 
-def parse_statistics(input_folder='stat_files/', output_file='ac_and_wc_stats.csv'):
-    num_files = len(os.listdir(input_folder))
+def parse_statistics(stat_folder, output_file):
+    num_files = len(os.listdir(stat_folder))
 
     # initialize variables to hold the statistics
     total_num_vars = []
@@ -82,9 +88,9 @@ def parse_statistics(input_folder='stat_files/', output_file='ac_and_wc_stats.cs
     total_cpu_time = []
     satisfiable_cnt = 0
 
-    for input_file in os.listdir(input_folder):
+    for input_file in os.listdir(stat_folder):
         if input_file.endswith('.txt'):
-            file_path = os.path.join(input_folder, input_file)
+            file_path = os.path.join(stat_folder, input_file)
             # open the input file
             with open(file_path, 'r') as f:
                 # read the lines of the input file
@@ -157,15 +163,19 @@ def parse_statistics(input_folder='stat_files/', output_file='ac_and_wc_stats.cs
         writer.writerow(['','',''])
         writer.writerow(['Number of satisfiable puzzles', satisfiable_cnt])
         writer.writerow(['Number of unsatisfiable puzzles', num_files-satisfiable_cnt])
-
-def parse_args():
-    if len(sys.argv) != 2:
-        print("Please provide only the input folder")
-    else:
-        return sys.argv[1]
+    
+def parse_args(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input", help="Input folder with puzzle files")
+    parser.add_argument("-s", "--sud2sat", help="Path to sud2sat executable")
+    parser.add_argument("-o", "--output", help="output folder for stats and report file", default="test_output/")
+    p_args = parser.parse_args(args)
+    return p_args
 
 if __name__ == '__main__':
-    folder_path = parse_args()
-    process_puzzles(folder_path)
-    parse_statistics()
+    args = parse_args(sys.argv[1:])
+    stat_output_folder = args.output + 'stat_files/'
+    output_file = args.output + 'ac_and_wc_stats.csv'
+    process_puzzles(args.input, args.output, stat_output_folder, args.sud2sat)
+    parse_statistics(stat_output_folder, output_file)
     

@@ -55,6 +55,31 @@ def get_clauses(puzzle):
                             for t in range(1, 4):
                                 clauses.append([-encode(3*a+u, 3*b+v, k), -encode(3*a+w, 3*b+t, k)])
 
+    # there is at most one number in each cell
+    for i in range(1, 10):
+        for j in range(1, 10):
+            for k in range(1,9):
+                for l in range(k+1, 10):
+                    clauses.append([-encode(i, j, k), -encode(i, j, l)])
+    
+
+    # Every number appears at least once in each row
+    for i in range(1, 10):
+        for k in range(1, 10):       
+            clauses.append([encode(i, j , k) for j in range(1, 10)])
+
+    # Every number appears at least once in each column
+    for j in range(1, 10):
+        for k in range(1, 10):
+            clauses.append([encode(i, j, k) for i in range(1, 10)]) 
+    
+    # Every number appears at least once in each subgrid
+    for k in range(1, 10):
+        for a in range(0, 3):
+            for b in range(0, 3):
+                clauses.append([encode(3 * a + u, 3 * b + v,k) for u in range(1, 4) for v in range(1,4)])
+    
+
     return clauses
 
 '''
