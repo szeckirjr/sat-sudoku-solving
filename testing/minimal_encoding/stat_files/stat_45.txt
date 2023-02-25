@@ -13,11 +13,11 @@ WARNING: for repeatability, setting FPU to use double precision
 ===============================================================================
 ===============================================================================
 restarts              : 1
-conflicts             : 15             (2300 /sec)
-decisions             : 35             (0.00 % random) (5366 /sec)
-propagations          : 1146           (175713 /sec)
+conflicts             : 15             (3970 /sec)
+decisions             : 35             (0.00 % random) (9264 /sec)
+propagations          : 1146           (303335 /sec)
 conflict literals     : 78             (9.30 % deleted)
 Memory used           : 11.00 MB
-CPU time              : 0.006522 s
+CPU time              : 0.003778 s
 
 SATISFIABLE
