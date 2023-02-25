@@ -48,9 +48,10 @@ def create_output_folder(new_dir):
 
 
 # Run all puzzles with minisat
-def process_puzzles(folder_path, output_foler, stat_output_folder, sud2sat_path):    
+def process_puzzles(folder_path, output_folder, stat_output_folder, sud2sat_path):    
     create_output_folder(stat_output_folder)
-    copy_file(sud2sat_path, output_foler)
+    copy_file(sud2sat_path)
+    copy_file(sud2sat_path, output_folder)
     file_index = 1
 
     for file_name in os.listdir(folder_path):
@@ -61,6 +62,8 @@ def process_puzzles(folder_path, output_foler, stat_output_folder, sud2sat_path)
             run_minisat(file_index, stat_output_folder)
             delete_file(file_name) # remove puzzle file from current directory
             file_index += 1
+
+    delete_file(os.path.basename(sud2sat_path))
 
 def get_average_stat(total_num_files, total_num_var):
     sum = 0.0
