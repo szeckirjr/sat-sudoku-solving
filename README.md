@@ -22,11 +22,17 @@ minisat puzzle.cnf assign.txt >stat.txt
 ./sat2sud <assign.txt >solution.txt
 ```
 
+NOTE: sud2sat1 uses a different input format. The output folder is hardcoded to `hard_puzzle_output/`. To run sud2sat1, execute the following command:
+
+```bash
+./sud2sat1 <hard_puzzle/hard_puzzles.txt
+```
+
 ## To Compile
 
 To make the program executable on Unix systems, needed for the lab:
 
-1. Make sure the following line is at the top of the `.py`file:
+1. Make sure the following line is at the top of the `.py` file:
 
 ```python
 #!/usr/bin/env python3
@@ -49,3 +55,16 @@ chmod +x hello
 ```bash
 ./hello
 ```
+
+## Common Errors
+```bash
+-bash: ./hello: Permission denied
+```
+
+To fix error, run the following command:
+```bash
+chmod +x hello
+```
+
+## Performance Analysis
+A performance analysis can be conducted on the different sud2sat programs using `testing/test_SAT_solver` program. It provides a report of the worst and average case statistics. Run `./test_SAT_solver -h` for help.
